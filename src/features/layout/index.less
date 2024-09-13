@@ -1,0 +1,109 @@
+@pro-header-hover-bg: rgba(0, 0, 0, 0.025);
+
+.menu {
+  :global(.anticon) {
+    margin-right: 8px;
+  }
+
+  :global(.ant-dropdown-menu-item) {
+    min-width: 160px;
+  }
+}
+
+.right {
+  display: flex;
+  float: right;
+  height: 48px;
+  margin-left: auto;
+  overflow: hidden;
+
+  .action {
+    display: flex;
+    align-items: center;
+    height: 48px;
+    padding: 0 12px;
+    cursor: pointer;
+    transition: all 0.3s;
+
+    > span {
+      vertical-align: middle;
+    }
+  }
+
+  .search {
+    padding: 0 12px;
+
+    &:hover {
+      background: transparent;
+    }
+  }
+
+  .account {
+    .avatar {
+      margin-right: 8px;
+      color: #fff;
+      vertical-align: top;
+      background: rgba(255, 255, 255, 0.85);
+    }
+  }
+  .name_wrap {
+    color: #fff;
+    width: 100px;
+    text-align: center;
+    height: 32px;
+    line-height: 32px;
+    border: 1px solid;
+    border-radius: 50px;
+    cursor: pointer;
+    padding: 0 12px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  .langAction {
+    display: flex;
+    align-items: center;
+    width: 100px;
+    height: 48px;
+    cursor: pointer;
+    transition: all 0.3s;
+    &:hover {
+      background: @pro-header-hover-bg;
+    }
+    &:global(.opened) {
+      background: @pro-header-hover-bg;
+    }
+    :global(.skiptranslate) {
+      height: 100%;
+      > span {
+        display: none;
+      }
+    }
+
+    select {
+      width: 100px;
+      color: white;
+      background: #001529;
+      border: none;
+
+      &:focus-visible {
+        border: none;
+      }
+    }
+  }
+}
+.farm_select {
+  color: #fff;
+  :global {
+    .ant-select-selector {
+      color: #fff;
+    }
+    .ant-select-arrow,
+    .ant-select-selection-search,
+    .ant-select-selection-search-input,
+    .ant-select-selection-item {
+      color: #fff;
+    }
+  }
+}

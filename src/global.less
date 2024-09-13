@@ -1,0 +1,339 @@
+@import '~@/assets/styles/variate.less';
+
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  /*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
+  ::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+    // 隐藏滚动条背景色
+    // background-color: #F5F5F5;
+  }
+
+  /*定义滚动条轨道 内阴影+圆角*/
+  ::-webkit-scrollbar-track {
+    // 隐藏滚动条背景色
+    // background-color: rgba(50, 50, 50, .1);
+    border-radius: 1em;
+  }
+
+  /*定义滑块 内阴影+圆角*/
+  ::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 1em;
+  }
+}
+
+body {
+  -webkit-user-drag: none;
+  text-size-adjust: none;
+  -webkit-text-size-adjust: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+*,
+*::before,
+*::after {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  box-sizing: border-box;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+// Layout reset style
+.ant-layout-sider {
+  margin-right: 20px;
+  // background: #ffffff !important;
+  background: #001529 !important;
+}
+.ant-layout-sider-children {
+  padding: 30px 0 0 0 !important;
+}
+
+.ant-layout-header {
+  height: 56px !important;
+  line-height: 56px !important;
+}
+
+.ant-pro-global-header {
+  padding: 0 24px 0 16px;
+  // background-color: #ffffff !important;
+  background-color: #001529 !important;
+}
+.ant-pro-global-header-logo h1 {
+  color: #fff;
+}
+.ant-page-header,
+.ant-breadcrumb,
+.ant-pro-page-container-children-container {
+  padding: 0 !important;
+}
+.ant-breadcrumb {
+  margin-bottom: 10px;
+}
+.ant-layout-content {
+  margin: 0;
+
+  .ant-pro-page-container {
+    margin: 0;
+    padding: 16px 32px;
+    height: @page-height;
+  }
+}
+
+.ant-pro-page-container-warp {
+  margin-bottom: 16px;
+  background-color: transparent;
+}
+
+.ant-page-header {
+  height: unset;
+  padding: unset;
+  box-shadow: unset;
+  background-color: transparent;
+}
+
+.ant-page-header.has-breadcrumb {
+  padding-top: 0px;
+}
+
+.ant-breadcrumb + .ant-page-header-heading {
+  margin-top: 14px;
+}
+
+.ant-pro-grid-content {
+  height: calc(100% - 46px);
+}
+
+.ant-pro-grid-content-children {
+  height: 90%;
+}
+
+.ant-pro-page-container-children-content {
+  margin: unset;
+  padding: unset;
+  height: 100%;
+  overflow: auto;
+}
+
+.ant-spin-nested-loading > div > .ant-spin {
+  max-height: unset;
+}
+
+// Empty reset style
+.ant-empty {
+  min-height: 240px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.ant-menu-item-active,
+.ant-menu-item-selected {
+  background-color: @primary-color !important;
+  color: #ffffff !important;
+  a {
+    color: #ffffff !important;
+  }
+}
+
+// 多数Dropdown样式覆盖
+.ant-dropdown-menu {
+  padding: 6px;
+
+  .ant-dropdown-menu-item {
+    .ant-dropdown-menu-item-icon {
+      font-size: 20px;
+    }
+  }
+
+  .ant-dropdown-menu-item + .ant-dropdown-menu-item {
+    margin-top: 4px;
+  }
+}
+
+.ant-dropdown-menu-item:hover,
+.ant-dropdown-menu-submenu-title:hover,
+.ant-dropdown-menu-item.ant-dropdown-menu-item-active,
+.ant-dropdown-menu-item.ant-dropdown-menu-submenu-title-active,
+.ant-dropdown-menu-submenu-title.ant-dropdown-menu-item-active,
+.ant-dropdown-menu-submenu-title.ant-dropdown-menu-submenu-title-active {
+  border-radius: 4px;
+  background-color: @primary-color-background;
+  color: @primary-color;
+}
+.ant-menu {
+  color: #ffffff !important;
+}
+.ant-menu-submenu-title,.ant-menu-item {
+  color: #ffffff !important;
+}
+.ant-menu-item-selected,
+.ant-menu-light .ant-menu-item:hover {
+  border-radius: 4px;
+}
+
+.ant-divider-horizontal {
+  margin: 16px 0;
+  border-top-color: @border-color;
+}
+
+.ant-pagination-item-active {
+  background-color: @primary-color;
+
+  a {
+    color: #ffffff;
+  }
+}
+.ant-menu-light .ant-menu-item-active,
+.ant-menu-light .ant-menu-item:hover {
+  color: #ffffff;
+}
+.ant-input-affix-wrapper,
+textarea.ant-input,
+.ant-picker-range,
+.ant-picker-middle,
+.ant-btn,
+.ant-input-number {
+  border-radius: 6px;
+}
+.ant-select:not(.ant-select-customize-input) .ant-select-selector {
+  border-radius: 6px;
+}
+
+.ant-tag {
+  border-radius: 26px;
+  padding: 0 20px;
+  height: 30px !important;
+  line-height: 28px;
+}
+.header {
+  display: flex;
+  align-items: center;
+  font-size: 20px;
+  color: @heading-color;
+  font-weight: bold;
+  margin-top: 10px;
+  & > div {
+    margin-left: 5px;
+    & > img {
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 6px;
+    }
+  }
+}
+a {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+.ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.ant-layout-header {
+  // background: #ffffff !important;
+  background: #001529 !important;
+}
+.ant-menu-light.ant-menu-submenu > .ant-menu {
+  background-color: #001529 !important;
+}
+.ant-checkbox-group {
+  .ant-form-item {
+    margin-bottom: 0 !important;
+  }
+}
+.ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.wrap_content {
+  height: 90%;
+}
+.tab_content {
+  background: #fff;
+  padding: 20px;
+}
+.content_wrap {
+  background: #fff;
+  padding: 20px 20px;
+}
+.label_text {
+  color: #787878;
+  font-size: 12px;
+}
+.label_value {
+  color: #000;
+}
+.price_num {
+  color: #ff6000;
+}
+.info_status0 {
+  color: @status-0; //待提交
+}
+.info_status1 {
+  color: @status-1; //审核中
+}
+.info_status2 {
+  color: @status-2; //已上线
+}
+.info_status3 {
+  color: @status-3; //已拒绝
+}
+.info_status4 {
+  //已下线
+  color: @status-4;
+}
+.ant-breadcrumb ol {
+  margin-top: 10px;
+}
+.font {
+  font-family: PingFang SC;
+  font-weight: normal;
+  line-height: normal;
+}
+.title-big {
+  .font();
+  color: @text-color;
+  font-size: 22px;
+  line-height: 31px;
+  font-weight: bold;
+}
+.title-normal {
+  .font();
+  color: @text-color;
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: bold;
+}
+.text_big {
+  .font();
+  color: @text-color;
+  font-size: 18px;
+  line-height: 26px;
+}
+.text_normal {
+  .font();
+  color: @text-color;
+  font-size: 16px;
+  line-height: 24px;
+}
+.text_sm {
+  .font();
+  color: @text-color;
+  font-size: 14px;
+  line-height: 22px;
+}

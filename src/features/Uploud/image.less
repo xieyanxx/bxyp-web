@@ -1,0 +1,117 @@
+.upload {
+  // display: inline-block;
+  display: flex;
+  gap: 10px;
+  :global(.anticon-delete) {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    display: none;
+    color: red;
+    font-size: 20px;
+    opacity: 0.4;
+  }
+  &:hover :global(.anticon-delete) {
+    display: inline;
+  }
+  :global(.ant-upload-list-picture-card) {
+    :global(.ant-upload-list-item) {
+      display: inline-flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    :global(.ant-upload-list-item-name) {
+      display: none;
+    }
+    :global(.ant-upload-list-item-actions) {
+      margin-left: 20px;
+      a {
+        display: none;
+      }
+    }
+  }
+  > span {
+    display: inline-block;
+    // width: 100%;
+    height: 100%;
+    :global {
+      .ant-upload.ant-upload-drag {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        > .ant-upload-btn {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 80%;
+          height: 80%;
+          padding: 0;
+          .ant-upload-drag-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            img {
+              width: 100%;
+            }
+          }
+        }
+      }
+    }
+  }
+  .img {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    img {
+      width: 100%;
+    }
+  }
+  :global {
+    .ant-upload {
+      width: 120px !important;
+      height: 120px !important;
+    }
+  }
+}
+.upload-s :global(.ant-upload-drag) {
+  width: 120px;
+  height: 120px;
+}
+
+.upload-m :global(.ant-upload-drag) {
+  width: 200px;
+  height: 200px;
+}
+.upload-l :global(.ant-upload-drag) {
+  width: 300px !important;
+  height: 200px !important;
+}
+.upload-l :global(.ant-upload) {
+  width: 300px !important;
+  height: 200px !important;
+}
+.img_list {
+  display: flex;
+  gap: 10px;
+}
+.list_wrap {
+  width: 120px;
+  height: 120px;
+  border-radius: 4px;
+  border: 1px solid #dedede;
+  overflow: hidden;
+  position: relative;
+}
+.wrap-l {
+  width: 300px !important;
+  height: 200px !important;
+  border-radius: 4px;
+  border: 1px solid #dedede;
+  overflow: hidden;
+  position: relative;
+  padding: 10px 20px;
+}

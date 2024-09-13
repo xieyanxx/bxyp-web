@@ -1,0 +1,52 @@
+module.exports = {
+  extends: require.resolve('@umijs/max/eslint'),
+  globals: {
+    ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION: true,
+    page: true,
+    IS_PROD: true,
+    BASE_URL: true,
+    BUILD_TARGET: true,
+    DEBUG: true,
+    DefText: true,
+    BUILD_TARGET: true,
+    GOOGLE_MAP_TOKEN: true,
+    MAP_BOX_TOKEN: true,
+    API_URL_MAP: true,
+    API_URL: true,
+  },
+  rules: {
+    '@typescript-eslint/no-shadow': 0,
+    '@typescript-eslint/consistent-type-imports': 0,
+    'react-hooks/exhaustive-deps': 0,
+    'no-param-reassign': 0,
+    '@typescript-eslint/no-use-before-define': 0,
+    'no-loop-func': 'off',
+    '@typescript-eslint/no-loop-func': 'off',
+    'no-unused-expressions': [
+      1,
+      { allowShortCircuit: true, allowTernary: true },
+    ],
+    '@typescript-eslint/no-unused-expressions': [
+      1,
+      { allowShortCircuit: true, allowTernary: true },
+    ],
+    '@typescript-eslint/no-unused-vars': 1,
+    eqeqeq: 0,
+    'no-promise-executor-return': 0,
+    'no-useless-escape': 0,
+    'array-callback-return': 0,
+    'no-async-promise-executor': 0,
+    '@typescript-eslint/ban-types': [
+      'error',
+      {
+        extendDefaults: true,
+        types: {
+          '{}': false,
+        },
+      },
+    ],
+    'no-case-declarations': 0,
+    'no-this-alias': 0,
+    '@typescript-eslint/no-this-alias': 0,
+  },
+};

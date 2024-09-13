@@ -1,0 +1,125 @@
+@import '~@/assets/styles/variate.less';
+
+.home-container {
+  display: flex;
+  height: @page-height;
+  width: calc(100vw - 96px);
+  overflow: hidden;
+
+  :global {
+    .collection-side-wrapper {
+      position: relative;
+      height: 100%;
+
+      .collection-side {
+        display: flex;
+        flex-direction: column;
+        width: 312px;
+        height: 100%;
+        border-right: 1px solid rgba(0, 0, 0, 0.06);
+        padding-top: 12px;
+        background-color: #ffffff;
+        transition: all 0.3s;
+
+        // 重写Tree组件样式
+        .ant-tree {
+          flex-grow: 1;
+          height: 0px;
+          font-size: 18px;
+          overflow-y: auto;
+
+          .ant-tree-treenode {
+            padding: 0 0 0 16px;
+            transition: background-color 0.3s;
+
+            &:hover {
+              background-color: @primary-color-background;
+            }
+
+            .ant-tree-title {
+              color: @text-color;
+            }
+          }
+
+          .tree-collection {
+            .ant-tree-title {
+              font-weight: bold;
+              color: @heading-color;
+            }
+          }
+
+          .ant-tree-treenode-selected {
+            background-color: @primary-color-background;
+          }
+
+          .ant-tree-switcher {
+            line-height: 48px;
+          }
+
+          .ant-tree-node-content-wrapper {
+            display: flex;
+            align-items: center;
+            min-height: 48px;
+            line-height: 48px;
+
+            &:hover {
+              background-color: unset;
+            }
+
+            .ant-tree-node-selected {
+              background-color: unset;
+            }
+
+            .ant-tree-iconEle {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+            }
+          }
+        }
+
+        .side-divider {
+          margin: 14px auto 102px;
+          width: 90%;
+          display: block;
+          border-top: 1px solid @border-color;
+        }
+      }
+
+      .side-collapsed {
+        position: absolute;
+        right: 24px;
+        bottom: 54px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 32px;
+        height: 32px;
+        border-radius: 0px 8px 8px 0px;
+        background-color: #ffffff;
+        cursor: pointer;
+        transition-duration: 0.5s;
+        z-index: 800;
+      }
+
+      .side-collapsed-hide {
+        right: -32px;
+
+        .side-collapsed-button {
+          transform: rotate(180deg);
+        }
+      }
+    }
+
+    .content-wrapper {
+      width: 0;
+      flex-grow: 1;
+    }
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .home-container {
+    width: 100vw;
+  }
+}

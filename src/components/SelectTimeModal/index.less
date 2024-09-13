@@ -1,0 +1,119 @@
+@import '~@/assets/styles/variate.less';
+
+.select-time-modal {
+  :global {
+    .prompt-text {
+      color: @primary-color;
+    }
+
+    .form-box {
+      margin-top: 16px;
+      display: flex;
+
+      .form-wrapper {
+        width: 290px;
+        margin-right: 12px;
+
+        .form-left-item {
+          display: flex;
+          align-items: center;
+
+          .form-left-item-label {
+            width: 80px;
+          }
+
+          .form-left-item-label-focus {
+            color: @error-color;
+          }
+
+          .form-left-item-input {
+            width: 0px;
+            height: 36px;
+            flex-grow: 1;
+          }
+        }
+
+        .form-left-item + .form-left-item {
+          margin-top: 16px;
+        }
+      }
+
+      .config-info {
+        width: 290px;
+        height: 340px;
+        padding: 8px 16px;
+        border: 1px solid @border-color;
+        background-color: #fafafa;
+
+        .config-info-title {
+          color: @primary-color;
+        }
+
+        .config-info-box {
+          border: 1px solid @border-color;
+          background-color: #ffffff;
+
+          .config-info-item {
+            display: flex;
+            padding: 8px 12px;
+            line-height: 28px;
+
+            .config-info-item-symbol {
+              width: 48px;
+              height: 28px;
+            }
+
+            .config-info-item-description {
+              flex: 1;
+              width: 0px;
+            }
+          }
+
+          .config-info-item + .config-info-item {
+            border-top: 1px solid @border-color;
+          }
+        }
+      }
+    }
+
+    .time-value-box {
+      margin-top: 16px;
+      display: flex;
+      align-items: center;
+
+      .time-value {
+        margin-right: 12px;
+        padding: 0px 12px;
+        width: 290px;
+        height: 36px;
+        line-height: 36px;
+        border: 1px solid @border-color;
+        border-radius: 2px;
+      }
+    }
+
+    .exmaple-times {
+      margin-top: 16px;
+      padding: 16px 12px;
+      min-height: 320px;
+      border: 1px solid @border-color;
+      background-color: #ffffff;
+
+      .exmaple-times-title {
+        font-weight: bold;
+      }
+
+      .exmaple-times-list {
+        margin-top: 12px;
+        margin-bottom: unset;
+        padding-left: 24px;
+
+        li {
+          height: 28px;
+          line-height: 28px;
+          color: @success-color;
+        }
+      }
+    }
+  }
+}

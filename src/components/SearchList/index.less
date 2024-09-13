@@ -1,0 +1,49 @@
+@import '~@/assets/styles/variate.less';
+
+.search-list-box {
+  width: 100%;
+
+  :global {
+    .search-list {
+      margin: 0 -24px;
+
+      .search-list-item {
+        height: 48px;
+        padding: 0 24px;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        background-color: transparent;
+        transition: all 0.3s;
+
+        .search-list-item-icon {
+          width: 40px;
+        }
+
+        .search-list-item-content {
+          width: 0;
+          flex-grow: 1;
+          margin-left: 4px;
+          color: @text-color;
+
+          .search-value {
+            font-weight: bold;
+            color: @primary-color;
+          }
+        }
+
+        &:hover {
+          background-color: @primary-color-background;
+        }
+      }
+
+      .search-list-item + .search-list-item {
+        margin-top: 4px;
+      }
+
+      .search-list-item-avtive {
+        background-color: @primary-color-background;
+      }
+    }
+  }
+}
