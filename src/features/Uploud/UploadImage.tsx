@@ -9,7 +9,6 @@ import { useGetState } from 'ahooks';
 import { Upload, message } from 'antd';
 import type { RcFile, UploadProps } from 'antd/lib/upload';
 import classNames from 'classnames';
-import { isFunction } from 'lodash';
 import type { UploadRequestOption } from 'rc-upload/lib/interface';
 import React, {
   forwardRef,
@@ -68,10 +67,8 @@ function UploadImage<T = any>(
   }: UploadImageProps<T>,
   ref: React.Ref<UploadImageRefType>,
 ) {
-  const fetchRef = useRef(0);
-  const reqRef = useGetProp(customRequest);
+
   const changeRef = useGetProp(onChange);
-  const beforeUploadRef = useGetProp(beforeUpload);
   const checkFnsRef = useGetProp(checkFns);
   const [values, setValues, getValues] = useGetState<UploadImageValuesType>({});
   const [loading, setLoading] = useState(false);
@@ -103,21 +100,6 @@ function UploadImage<T = any>(
   useEffect(() => {
     const wright = typeof value === 'object' && value !== null;
     setValues(wright ? value : {});
-    if (wright) {
-      if (value.id != undefined && !value.url) {
-        const now = Date.now();
-        fetchRef.current = now;
-        // request
-        //     .getSourceUrlById({ type: 'img', id: value.id })
-        //     .then(({ success, data }) => {
-        //         if (success && fetchRef.current === now) {
-        //             const res = { ...getValues(), url: data.url };
-        //             setValues(res);
-        //             changeRef()?.(res);
-        //         }
-        //     });
-      }
-    }
   }, [value]);
   const fileList = useMemo(() => {
     return values.url
@@ -142,7 +124,6 @@ function UploadImage<T = any>(
   );
   const beforeUploadfn = useCallback(
     async (file: RcFile, FileList: RcFile[]) => {
-      if (beforeUploadRef()) return beforeUploadRef()(file, FileList);
       if (FileList.length > maxCount)
         return message.error(`逻辑错误，最多可上传${maxCount}个文件`), false;
       const img = await loadImage(file);
@@ -159,26 +140,21 @@ function UploadImage<T = any>(
     async (options: UploadRequestOption) => {
       if (loading) return;
       setLoading(true);
-      if (isFunction(reqRef())) {
-        await reqRef()(options);
+      const file = options.file;
+      const formData = new FormData();
+      formData.append('file', file);
+      request.upload(formData).then(({ success, data }) => {
         setLoading(false);
-        return;
-      }
-      const file = options.file as any;
-      request
-        .upload({ bizType: 'COMMON', fileCount: maxCount, file })
-        .then(({ success, data }) => {
-          setLoading(false);
-          if (success) {
-            const res = { url: data.url, id: data.id };
-            setValues(res);
-            changeRef()?.(res);
-            options.onSuccess?.({});
-          } else {
-            message.error(`上传失败：${(data as any)?.message}`);
-            options.onError?.(new Error('上传失败'));
-          }
-        });
+        if (success) {
+          const res = { url: data.url, id: data.id };
+          setValues(res);
+          changeRef()?.(res);
+          options.onSuccess?.({});
+        } else {
+          message.error(`上传失败：${(data as any)?.message}`);
+          options.onError?.(new Error('上传失败'));
+        }
+      });
     },
     [loading],
   );

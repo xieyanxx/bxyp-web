@@ -25,7 +25,7 @@ class ColumnReturn extends RecordItem {
     });
     this.id = data.id;
     this.orderNo = data.orderNo;
-    this.refundAmount = data.totalPrice/100;
+    this.refundAmount = data.refundAmount / 100;
     this.refundNo = data.refundNo;
     this.username = data.username;
     this.products = data.products;
@@ -47,7 +47,7 @@ export default {
       request({
         url: '/mall/admin/goods/order/list-refund',
         method: 'POST',
-        params: data,
+        data,
       }),
       (_) => new ColumnReturn(_),
     ),

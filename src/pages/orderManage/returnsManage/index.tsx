@@ -1,58 +1,51 @@
 import ProTable from '@/components/Table/ProTable';
 import { parseColumns } from '@/features/parseColumns';
-import capitalFlow, {
-  CashoutType,
-  ColumnCashout,
-} from '@/helper/services/capitalFlow';
+import returnsManage, { ColumnReturn } from '@/helper/services/returnsManage';
 import { PageContainer } from '@ant-design/pro-components';
 import type { ActionType } from '@ant-design/pro-table';
 import dayjs from 'dayjs';
-import { memo, useCallback, useRef, useState } from 'react';
-import ExportExcel from './ExportExcel';
+import { memo, useCallback, useRef } from 'react';
 
-//资金流水
-function CapitalFlow() {
+//退货管理
+function ReturnsManage() {
   const tableRef = useRef<ActionType>();
-  const [searchParams, setSearchParams] = useState<any>({});
-  const columns = parseColumns<ColumnCashout>({
+  const columns = parseColumns<ColumnReturn>({
     columns: [
       {
-        title: '类型',
-        dataIndex: 'type',
+        title: '订单号',
+        dataIndex: 'orderNo',
         hideInSearch: false,
-        valueEnum: CashoutType,
       },
       {
-        title: '用户名',
+        title: '退货订单号',
+        dataIndex: 'refundNo',
+      },
+      {
+        title: '退货商品',
+        dataIndex: 'products',
+        render: (_: any, data: ColumnReturn) => {
+          return data.products.map((item) => (
+            <div key={item.id}>{`${item.name}(X${item.count})`}</div>
+          ));
+        },
+      },
+      {
+        title: '退货价格',
+        dataIndex: 'refundAmount',
+        render: (_: any, data: ColumnReturn) => (
+          <div>{data.refundAmount}元</div>
+        ),
+      },
+
+      {
+        title: '退货用户',
         dataIndex: 'username',
-        // hideInSearch: false,
+        hideInSearch: false,
       },
       {
         title: '用户电话',
         dataIndex: 'phone',
         hideInSearch: false,
-      },
-      {
-        title: '金额',
-        dataIndex: 'nickname',
-        render: (_: any, data: ColumnCashout) => {
-          return data.income ? (
-            <div style={{ color: 'red' }}>+{data.amount}</div>
-          ) : (
-            <div>-{data.amount}</div>
-          );
-        },
-      },
-      {
-        title: '创建时间',
-        dataIndex: 'createTime',
-        ellipsis: true,
-        hideInSearch: false,
-        valueType: 'dateRange',
-        render: (_: any, data: any) => data.createTime,
-        fieldProps: {
-          placeholder: ['起始时间', '结束时间'],
-        },
       },
     ],
     operation: false,
@@ -60,7 +53,7 @@ function CapitalFlow() {
   const request = useCallback(
     (
       params: PagingArgs<{
-        type?: number;
+        orderNo?: string;
         createTime?: [string, string];
         username?: string;
         phone?: string;
@@ -69,7 +62,7 @@ function CapitalFlow() {
       const {
         pageSize: size = 20,
         current: page = 1,
-        type,
+        orderNo,
         username,
         phone,
         createTime,
@@ -78,7 +71,7 @@ function CapitalFlow() {
       const data = {
         pageNumber: page - 1,
         pageSize: size,
-        type,
+        orderNo,
         username,
         phone,
         startTime: createTime
@@ -88,8 +81,7 @@ function CapitalFlow() {
           ? dayjs(createTime[1] + '23:59:59').valueOf()
           : null,
       };
-      setSearchParams(data);
-      return capitalFlow.cashoutList(data);
+      return returnsManage.returnsList(data);
     },
     [],
   );
@@ -100,16 +92,14 @@ function CapitalFlow() {
   }, []);
   return (
     <PageContainer title={false}>
-      <ProTable<ColumnCashout>
+      <ProTable<ColumnReturn>
         actionRef={tableRef}
         columns={columns}
         request={request}
-        toolBarRender={() => [
-          <ExportExcel key={'exportExcel'} params={searchParams}></ExportExcel>,
-        ]}
+        toolBarRender={() => []}
       />
     </PageContainer>
   );
 }
 
-export default memo(CapitalFlow);
+export default memo(ReturnsManage);

@@ -3,10 +3,23 @@
 import { request } from './request';
 
 export default {
- 
-  login: (data: { phone?: string; password?: string }) =>
+  login: (data: { username: string; password: string }) =>
     request({
-      url: '/user/bis/login',
+      url: '/mall/public/admin/login',
+      method: 'POST',
+      data,
+    }),
+  addUser: (data: {
+    username: string;
+    password: string;
+    phone: string;
+    shopAddr: string;
+    shopName: string;
+    debtLimit: number;
+    admin: boolean;
+  }) =>
+    request({
+      url: '/mall/public/test/user/add-user',
       method: 'POST',
       data,
     }),

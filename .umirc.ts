@@ -3,10 +3,10 @@ import { defineConfig } from '@umijs/max';
 const base = '/';
 const ENV = process.env.ENV || 'DEV';
 const API_URL_MAP = {
-  PROD: 'https://api.langlangsan.cn',
-  TEST: 'https://api.test.langlangsan.cn',
-  DEV: 'http://8.137.49.13:9090/',
-  // DEV: 'https://api.langlangsan.cn',
+  PROD: 'https://mall.baixianyoupin.cn/',
+  TEST: 'https://mall.baixianyoupin.cn/',
+  // DEV: 'http://8.137.49.13:9090/',
+  DEV: 'https://mall.baixianyoupin.cn/',
 } as any;
 
 const ADMIN_URL_MAP = {
@@ -81,7 +81,24 @@ export default defineConfig({
       name: '订单管理',
       path: '/orderManage',
       icon: 'OrderedListOutlined',
-      component: '@/pages/orderManage',
+      routes: [
+        {
+          name: '订单列表',
+          path: '/orderManage/orderList',
+          component: '@/pages/orderManage/orderList',
+        },
+        {
+          name: '退货列表',
+          path: '/orderManage/returnsManage',
+          component: '@/pages/orderManage/returnsManage',
+        },
+      ],
+    },
+    {
+      name: '资金流水',
+      path: '/capitalFlow',
+      icon: 'TransactionOutlined',
+      component: '@/pages/capitalFlow',
     }
   ],
   theme: {

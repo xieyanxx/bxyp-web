@@ -1,5 +1,6 @@
 import { NestedFormRef, NestedModalForm } from '@/components/Form';
 import { UploadImage, UploadImageValuesType } from '@/features/Uploud';
+import classification from '@/helper/services/classification';
 import productManage, { ColumnProduct } from '@/helper/services/productManage';
 import { UnitOptions } from '@/helper/services/utils';
 import {
@@ -17,11 +18,11 @@ type Values = {
     name: string;
     online: boolean;
     pic: UploadImageValuesType;
-    sell_price: number;
-    buy_price: number;
+    sellPrice: number;
+    buyPrice: number;
     unit: string;
     stock: number;
-    category_id: number;
+    categoryId: number;
   };
 };
 function Add({ raw, reload }: { raw?: ColumnProduct; reload: () => void }) {
@@ -35,14 +36,15 @@ function Add({ raw, reload }: { raw?: ColumnProduct; reload: () => void }) {
       };
       return data;
     }
+    return { online: false };
   }, [raw]);
   const submit = useCallback(
     async (values: Values) => {
-      const { sell_price, buy_price, pic } = values.basic;
+      const { sellPrice, buyPrice, pic } = values.basic;
       const data: any = {
         ...values.basic,
-        sell_price: sell_price * 100,
-        buy_price: buy_price * 100,
+        sellPrice: sellPrice * 100,
+        buyPrice: buyPrice * 100,
         pic: pic.url,
         id: raw?.id,
       };
@@ -51,8 +53,21 @@ function Add({ raw, reload }: { raw?: ColumnProduct; reload: () => void }) {
         return res;
       });
     },
-    [raw, reload],
+    [raw],
   );
+
+  //获取商品分类
+  const getCategory = (params: PagingArgs<{ name?: string }>) => {
+    const { pageSize: size = 20, current: page = 1, name } = params;
+    const data = {
+      pageNumber: page - 1,
+      pageSize: size,
+      name: name || '',
+    };
+    return classification.categoryList(data).then((res) => {
+      return res.data;
+    });
+  };
 
   return (
     <NestedModalForm<Values>
@@ -70,7 +85,7 @@ function Add({ raw, reload }: { raw?: ColumnProduct; reload: () => void }) {
       />
       <ProFormMoney
         label="商品进价"
-        name="buy_price"
+        name="buyPrice"
         width={'lg'}
         min={0.01}
         max={99999999}
@@ -79,7 +94,7 @@ function Add({ raw, reload }: { raw?: ColumnProduct; reload: () => void }) {
       />
       <ProFormMoney
         label="商品售价"
-        name="sell_price"
+        name="sellPrice"
         width={'lg'}
         min={0.01}
         max={99999999}
@@ -98,18 +113,19 @@ function Add({ raw, reload }: { raw?: ColumnProduct; reload: () => void }) {
         }
       />
       <ProFormSelect
-        name="category_id"
+        name="categoryId"
         label="所属类别"
-        options={[]}
-        placeholder="选择认养农产品"
+        placeholder="选择所属类别"
         rules={[{ required: true }]}
         width={'lg'}
         showSearch
         fieldProps={{
-          // onChange: handleSelectArea,
           fieldNames: { label: 'name', value: 'id' },
         }}
-        debounceTime={300}
+        request={async ({ name = '' }: { name?: string }) =>
+          getCategory({ name })
+        }
+        debounceTime={1000}
       />
       <ProFormDigit
         name="stock"

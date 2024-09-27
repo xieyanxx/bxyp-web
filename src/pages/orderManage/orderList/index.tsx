@@ -1,7 +1,8 @@
 import ConfirmButton from '@/components/ConfirmButton';
 import ProTable from '@/components/Table/ProTable';
 import { parseColumns } from '@/features/parseColumns';
-import orderManage, { ColumnOrder } from '@/helper/services/orderManage';
+import orderManage, { ColumnOrder, OrderStatus } from '@/helper/services/orderManage';
+import { handleAmount } from '@/helper/services/utils';
 import { PageContainer } from '@ant-design/pro-components';
 import type { ActionType } from '@ant-design/pro-table';
 import dayjs from 'dayjs';
@@ -25,22 +26,30 @@ function OrderManage() {
           <>
             {data.orderItems.map((item, index) => (
               <div key={index}>
-                <div>{item.productName}</div>
-                <div>X{item.productCount}</div>
-                <div>{item.sellPrice}</div>
+                <div>{`${item.productName}`}</div>
+                <div>{`数量：${item.productCount}`}</div>
+                <div>{`单价：${handleAmount(item.sellPrice)}元`}</div>
               </div>
             ))}
-            <div></div>
           </>
         ),
       },
       {
         title: '售价',
         dataIndex: 'totalPrice',
+        render: (_: any, data: ColumnOrder) => <div>{data.totalPrice}元</div>,
       },
       {
         title: '成本价',
         dataIndex: 'totalBuyPrice',
+        render: (_: any, data: ColumnOrder) => (
+          <div>{data.totalBuyPrice}元</div>
+        ),
+      },
+      {
+        title: '订单状态',
+        dataIndex: 'orderState',
+        valueEnum:OrderStatus,
       },
       {
         title: '下单用户',
@@ -67,16 +76,19 @@ function OrderManage() {
     operation: {
       render: (_, data) => (
         <>
-          <ConfirmButton
-            title="确定要将该订单状态改为已完成吗？"
-            onConfirm={() =>
-              orderManage
-                .updateStatus({ orderNo: data.orderNo })
-                .then((res) => (res && reload(), res))
-            }
-          >
-            已完成
-          </ConfirmButton>
+          {data.orderState == 0 && (
+            <ConfirmButton
+              title="确定要将该订单状态改为已完成吗？"
+              onConfirm={() =>
+                orderManage
+                  .updateStatus({ orderNo: data.orderNo })
+                  .then((res) => (res && reload(), res))
+              }
+            >
+              已完成
+            </ConfirmButton>
+          )}
+
           <Refund raw={data} reload={reload} />
         </>
       ),
@@ -101,7 +113,7 @@ function OrderManage() {
       } = params;
       const data = {
         pageNumber: page - 1,
-        pageSize:size,
+        pageSize: size,
         orderNo: orderNo,
         startTime: createTime ? dayjs(createTime[0]).valueOf() : null,
         endTime: createTime ? dayjs(createTime[1]).valueOf() : null,
@@ -123,7 +135,7 @@ function OrderManage() {
         actionRef={tableRef}
         columns={columns}
         request={request}
-        toolBarRender={() => [<Refund reload={reload} />]}
+        toolBarRender={() => []}
       />
     </PageContainer>
   );

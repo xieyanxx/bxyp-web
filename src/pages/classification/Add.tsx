@@ -23,14 +23,6 @@ function Add({ raw, reload }: { raw?: ColumnCategory; reload: () => void }) {
         pic: { url: pic },
       };
       return data;
-    } else {
-      const data: any = {
-        name: '海鲜水产',
-        pic: {
-          url: 'https://qny.smzdm.com/202406/02/665c47547184b8790.jpg_d250.jpg',
-        },
-      };
-      return data;
     }
   }, [raw]);
   const submit = useCallback(
@@ -39,7 +31,6 @@ function Add({ raw, reload }: { raw?: ColumnCategory; reload: () => void }) {
       const data: any = {
         name,
         pic: pic.url,
-
         id: raw?.id,
       };
       return classification.updateCategory(data).then((res) => {

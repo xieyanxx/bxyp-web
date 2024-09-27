@@ -21,6 +21,7 @@
     "cos-js-sdk-v5": "^1.4.21",
     "cos-nodejs-sdk-v5": "^2.12.5",
     "formik": "^2.4.5",
+    "jsonwebtoken": "^9.0.2",
     "jszip": "^3.10.1",
     "react-infinite-scroll-component": "^6.1.0",
     "react-sortable-hoc": "^2.0.0",

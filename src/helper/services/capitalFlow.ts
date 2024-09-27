@@ -2,7 +2,7 @@ import { formatTime, map2options } from '@/utils';
 import { request } from './request';
 import { RecordItem } from './utils';
 
-const CashoutType = {
+const CashoutType:any = {
   0: '下单',
   1: '退款',
   2: '充值',
@@ -46,7 +46,7 @@ export default {
       request({
         url: '/mall/admin/cash/list-log',
         method: 'POST',
-        params: data,
+        data,
       }),
       (_) => new ColumnCashout(_),
     ),

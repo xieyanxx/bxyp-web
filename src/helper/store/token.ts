@@ -43,7 +43,7 @@ const Token = {
   getUser() {
     return store.get(UserKey);
   },
-  setUser(user: { nickname: string; avatarUrl: string; phone?: string }) {
+  setUser(user: { nickname: string; avatarUrl?: string; phone?: string }) {
     return store.set(UserKey, user);
   },
 

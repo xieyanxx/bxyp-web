@@ -32,7 +32,7 @@ export const ApiInterfaceTypeOptions = Object.entries(
   }[],
 );
 // 鉴权失败的HTTP status
-export const AuthFailedStatus = 401;
+export const AuthFailedStatus = 403;
 // 接口成功（200<= http status < 300）返回并且返回体code为20000才算响应成功
 // 第三方接口可能不一样
 export const SuccessResCode = 200;

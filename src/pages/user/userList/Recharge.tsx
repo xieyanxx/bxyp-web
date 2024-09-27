@@ -4,7 +4,7 @@ import { ProFormDigit } from '@ant-design/pro-components';
 import { memo, useCallback, useRef } from 'react';
 
 type Values = {
-  basic: {
+  basic1: {
     chargeAmount: number;
   };
 };
@@ -13,7 +13,7 @@ function Recharge({ raw, reload }: { raw?: ColumnUser; reload: () => void }) {
 
   const submit = useCallback(
     async (values: Values) => {
-      const { chargeAmount } = values.basic;
+      const { chargeAmount } = values.basic1;
       const data = {
         chargeAmount: chargeAmount * 100, //后端金额单位为分
         userId: raw?.id || '',
@@ -29,7 +29,7 @@ function Recharge({ raw, reload }: { raw?: ColumnUser; reload: () => void }) {
   return (
     <NestedModalForm<Values>
       ref={modal}
-      formName="basic"
+      formName="basic1"
       onFinish={submit}
       isEdit={!!raw}
       title={'充值'}

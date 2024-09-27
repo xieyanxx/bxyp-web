@@ -7,6 +7,7 @@ import { memo, useCallback, useRef } from 'react';
 import Add from './Add';
 import ChangePwd from './ChangePwd';
 import Recharge from './Recharge';
+import Token from '@/helper/store/token';
 
 function UserList() {
   const tableRef = useRef<ActionType>();
@@ -55,9 +56,13 @@ function UserList() {
     operation: {
       render: (_, data) => (
         <>
-          <Add raw={data} reload={reload} />
-          <Recharge raw={data} key="Recharge" reload={reload}></Recharge>
-          <ChangePwd raw={data} key="ChangePwd" reload={reload}></ChangePwd>
+          <Add raw={data} key={'add'} reload={reload} />
+          {Token.getUser().nickname ==='admin' && <>
+            <Recharge raw={data} key="Recharge" reload={reload}></Recharge>
+            <ChangePwd raw={data} key="ChangePwd" reload={reload}></ChangePwd>
+          </>}
+
+
         </>
       ),
     },
@@ -99,7 +104,7 @@ function UserList() {
         actionRef={tableRef}
         columns={columns}
         request={request}
-        toolBarRender={() => [<Add key="add" reload={reload} />]}
+        toolBarRender={() => [<Add key="addUser" reload={reload} />]}
       />
     </PageContainer>
   );

@@ -2,6 +2,12 @@ import { formatTime } from '@/utils';
 import { request } from './request';
 import { RecordItem } from './utils';
 
+const OrderStatus = {
+  0: '待出货',
+  1: '已付款',
+  2: '已完成',
+};
+
 export type OrderItems = {
   productId: number;
   productName: string;
@@ -32,6 +38,7 @@ class ColumnOrder extends RecordItem {
   readonly orderItems: OrderItems; //下单商品
   readonly refundItems: RefundItems; //退货商品
   readonly phone: string;
+  readonly orderState: number;
   constructor(data: any = {}) {
     super({
       name: data.operator,
@@ -40,12 +47,13 @@ class ColumnOrder extends RecordItem {
     });
     this.id = data.id;
     this.orderNo = data.orderNo;
-    this.totalPrice = data.totalPrice;
-    this.totalBuyPrice = data.totalBuyPrice;
+    this.totalPrice = data.totalPrice / 100;
+    this.totalBuyPrice = data.totalBuyPrice / 100;
     this.username = data.username;
     this.orderItems = data.orderItems;
     this.refundItems = data.refundItems;
     this.phone = data.phone;
+    this.orderState = data.orderState;
     this.createTime = formatTime(data.createTime);
   }
 }
@@ -63,7 +71,7 @@ export default {
       request({
         url: '/mall/admin/goods/order/list',
         method: 'POST',
-        params: data,
+        data,
       }),
       (_) => new ColumnOrder(_),
     ),
@@ -85,6 +93,18 @@ export default {
         data,
       }),
     ),
+  //退款
+  OrderrRfund: (data: {
+    orderNo: string;
+    refundItems: { orderItemNo: string; productCount: number }[];
+  }) =>
+    request.successRes(
+      request({
+        url: '/mall/admin/goods/order/refund',
+        method: 'POST',
+        data,
+      }),
+    ),
 };
 
-export { ColumnOrder };
+export { ColumnOrder, OrderStatus };

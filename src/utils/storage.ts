@@ -10,7 +10,7 @@ type StorageConfig<T extends Record<string, any>> = {
 type Callback<T> = (store: Partial<T>) => void;
 
 class LocaleStorage<T extends Record<string, any> = Record<string, any>> {
-  readonly prefix: string = 'jagat-admin/';
+  // readonly prefix: string = 'jagat-admin/';
   readonly type: StorageType = 'localStorage';
   readonly store: Partial<T> = {};
   private storage: Storage = window.localStorage;
@@ -18,9 +18,9 @@ class LocaleStorage<T extends Record<string, any> = Record<string, any>> {
   private preversion = [`${window.location.origin}/utown-admin`, 'utown-admin'];
   constructor(config: StorageConfig<T> = {}) {
     const { prefix, type, store } = config;
-    if (typeof prefix === 'string') {
-      this.prefix = prefix;
-    }
+    // if (typeof prefix === 'string') {
+    //   this.pefix = prefix;
+    // }
     if (type === 'sessionStorage') {
       this.type = type;
       this.storage = window.sessionStorage;
@@ -31,8 +31,7 @@ class LocaleStorage<T extends Record<string, any> = Record<string, any>> {
     this.initStore(store);
   }
   private switchKey(key: string) {
-    if (key.startsWith(this.prefix)) return key.replace(this.prefix, '');
-    return this.prefix + key;
+    return key;
   }
   private names(data: Record<string, any>) {
     return Object.getOwnPropertyNames(data);

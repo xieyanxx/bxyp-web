@@ -1,4 +1,3 @@
-
 import { SuccessResCode } from '@/constants';
 import {
   delError,
@@ -6,8 +5,8 @@ import {
   hasCaseInsensitiveProperty,
   isStrictObject,
 } from '@/utils';
-import { history } from '@umijs/max';
 import { message } from 'antd';
+import { history } from '@umijs/max';
 import type {
   AxiosRequestConfig,
   AxiosRequestHeaders,
@@ -15,10 +14,8 @@ import type {
   Method,
 } from 'axios';
 import axios from 'axios';
-import COS from 'cos-js-sdk-v5';
 import { cloneDeep, isFunction } from 'lodash';
 import Token from '../store/token';
-const ProxyApi = 'console-service/proxy';
 const RequestTimeout = 20000;
 const TimeoutErrorMessage = '请求响应超时';
 
@@ -42,7 +39,7 @@ function getHeadersValue(
  * * 三种form格式的差异可以参考 https://www.w3.org/TR/html401/interact/forms.html#h-17.13.4.1
  * *
  */
-const ContentTypeFormat = {
+const ContentTypeFormat: any = {
   'application/x-www-form-urlencoded': function (data: unknown) {
     if (isStrictObject(data)) {
       const params = new URLSearchParams();
@@ -98,7 +95,7 @@ function listRes<T = any, P = any>(
   total: number;
   success: boolean;
 }> {
-  let transform;
+  let transform: any;
   if (typeof config === 'function') {
     transform = config;
   } else if (config?.transform) {
@@ -214,6 +211,7 @@ function createApiInstance() {
         let token = response.headers['Set-Token'.toLocaleLowerCase()];
         localStorage.setItem('token', `Bearer ${token}`);
       }
+      console.log(response)
       if (response.status !== SuccessResCode) {
         return Promise.reject(delError(response.data));
       } else {
@@ -221,10 +219,10 @@ function createApiInstance() {
       }
     },
     (error: any) => {
-      // if (error?.response?.status === 401 || error?.response?.status === 0) {
-      //   history.replace('/login');
+      if (error?.response?.status === 403 || error?.response?.status === 0) {
+        history.replace('/login');
 
-      // }
+      }
       // 大部分接口报错是这样的
       if (typeof error?.response?.data?.code === 'number') {
         return Promise.reject(delError(error.response.data));
@@ -261,7 +259,10 @@ function network<T = any, D = any>(
     if (typeof extra.transformData === 'function') {
       rest.data = extra.transformData(rest.data);
     } else {
-      const contentType = getHeadersValue('Content-Type', rest.headers as any);
+      const contentType: any = getHeadersValue(
+        'Content-Type',
+        rest.headers as any,
+      );
       const format = ContentTypeFormat[contentType + ''];
       // 格式化非JSON格式data。默认会按JSON格式序列化data
       if (
@@ -279,76 +280,11 @@ function network<T = any, D = any>(
   return $http(rest);
 }
 
-async function getSourceUrlById(params: {
-  file: any;
-  id: UploadType;
-}): Promise<
-  | { success: true; data: any }
-  | { success: false; data: ReturnType<typeof delError> }
-> {
-  const {
-    tmpSecretId,
-    tmpSecretKey,
-    sessionToken,
-    bucket,
-    region,
-    expiredTime,
-  } = params.id;
-  const uploadNameRes = await network({
-    url: '/biz/cos/newFilePrefixName',
-    method: 'GET',
-    params: { biz: 'COMMON' },
-  })
-    .then(({ data }) => {
-      return { success: true, data: data } as const;
-    })
-    .catch((error) => ({ success: false, data: delError(error) } as const));
-  const cos = new COS({
-    // 必选参数
-    getAuthorization: (options: any, callback: any) => {
-      callback({
-        TmpSecretId: tmpSecretId,
-        TmpSecretKey: tmpSecretKey,
-        XCosSecurityToken: sessionToken,
-        ExpiredTime: expiredTime,
-      });
-    },
-  });
-  return cos
-    .putObject({
-      Bucket: bucket /* 必须 */,
-      Region: region,
-      Key: uploadNameRes.data + '.' + params.file.name.split('.').pop(),
-      Body: params.file, // 上传文件对象
-      StorageClass: 'STANDARD',
-    })
-    .then((res) => {
-      return { success: true, data: res } as const;
-    })
-    .catch((error) => {
-      const data = delError(error);
-      message.error(data.message);
-      return { success: false, data } as const;
-    });
-}
-type UploadType = {
-  tmpSecretId: string;
-  tmpSecretKey: string;
-  sessionToken: string;
-  bucket: string;
-  region: string;
-  expiredTime: number;
-};
-async function upload(config: {
-  bizType: string;
-  fileCount?: number;
-  file: any;
-}) {
-  const type = config.bizType;
+async function upload(config: any) {
   const uploadRes = await network({
-    url: '/biz/cos/auth',
+    url: '/mall/admin/files/upload',
     method: 'POST',
-    data: { ...config },
+    data: config,
   })
     .then(({ data }) => {
       return { success: true, data: data } as const;
@@ -360,17 +296,12 @@ async function upload(config: {
       success: false;
       data: ReturnType<typeof delError>;
     };
-  return getSourceUrlById({ file: config.file, id: uploadRes.data }).then(
-    ({ success, data }) => {
-      if (success) {
-        const url: string = 'https://' + data.Location;
-        return {
-          success: true,
-          data: { url, id: data.RequestId },
-        };
-      } else return { success, data } as any;
-    },
-  );
+  const url: string = API_URL + 'mall/public/common/files/images' + uploadRes.data;
+  const uploadData = {
+    success: true,
+    data: { url, id: url },
+  };
+  return uploadData;
 }
 
 /**
@@ -390,7 +321,7 @@ function retry<T = any, D = any>(
 ): Promise<AxiosResponse<T, D>> {
   if (count <= 0 || !isFunction(success)) return network(config);
   let n = -1;
-  const nextStep = () =>
+  const nextStep: any = () =>
     network(config)
       .then((data) => ({ done: success(data), data }))
       .catch((error) => ({ done: false, data: error }))
@@ -478,9 +409,6 @@ Object.defineProperties(network, {
   upload: {
     value: upload,
   },
-  getSourceUrlById: {
-    value: getSourceUrlById,
-  },
   message: {
     value: message,
   },
@@ -534,7 +462,6 @@ export type RequestFunctionType = (<T = any, D = any>(
   delError: typeof delError;
   message: typeof message;
   upload: typeof upload;
-  getSourceUrlById: typeof getSourceUrlById;
   msgErr: typeof msgErr;
   retry: typeof retry;
   wholeList: typeof wholeList;

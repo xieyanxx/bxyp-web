@@ -17,6 +17,7 @@ declare const API_HOST: string;
 declare const BUILD_TARGET: string;
 declare module 'lodash';
 declare module 'store';
+declare module 'jsonwebtoken'
 
 declare module 'eruda' {
   export function init(): void;

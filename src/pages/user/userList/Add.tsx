@@ -64,6 +64,7 @@ function Add({ raw, reload }: { raw?: ColumnUser; reload: () => void }) {
         name="username"
         label="用戶名"
         rules={[{ required: true }]}
+        disabled={raw ? true : false}
       />
       <ProFormDigit
         name="debtLimit"
@@ -94,7 +95,6 @@ function Add({ raw, reload }: { raw?: ColumnUser; reload: () => void }) {
           rules={adminPwd()}
         />
       )}
-
       <ProFormText
         name="shopName"
         label="店铺名称"

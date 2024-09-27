@@ -57,3 +57,13 @@ export const UnitOptions = [
     value: '盒',
   },
 ];
+
+
+/**
+ *
+ * @param amount 处理金额后端返回为分
+ * @returns
+ */
+export function handleAmount(amount?: number) {
+  return amount ? amount / 100 : 0
+}

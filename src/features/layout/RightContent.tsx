@@ -7,6 +7,7 @@ import { Avatar, Dropdown, MenuProps, Space } from 'antd';
 import classNames from 'classnames';
 import React from 'react';
 import styles from './index.less';
+import Token from '@/helper/store/token';
 
 const RightContent: React.FC = () => {
   const items: MenuProps['items'] = [
@@ -15,6 +16,7 @@ const RightContent: React.FC = () => {
       label: (
         <div
           onClick={() => {
+            localStorage.clear()
             history.replace('/login');
           }}
         >

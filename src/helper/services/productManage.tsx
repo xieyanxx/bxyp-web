@@ -8,12 +8,18 @@ class ColumnProduct extends RecordItem {
   readonly pic: string;
   readonly createTime: string;
   readonly online: boolean;
-  readonly sell_price: number;
+  readonly sellPrice: number;
   readonly unit: string;
-  readonly category_id: number;
-  readonly category_name: string;
-  readonly buy_price: number;
+  readonly categoryId: number;
+  readonly categoryName: string;
+  readonly buyPrice: number;
   readonly stock: number;
+  get newBuyPrice() {
+    return `${this.buyPrice} 元/${this.unit}`;
+  }
+  get newSellPrice() {
+    return `${this.sellPrice} 元/${this.unit}`;
+  }
   constructor(data: any = {}) {
     super({
       name: data.operator,
@@ -25,11 +31,11 @@ class ColumnProduct extends RecordItem {
     this.pic = data.pic;
     this.createTime = formatTime(data.createTime);
     this.online = data.online;
-    this.sell_price = data.sell_price / 100;
+    this.sellPrice = data.sellPrice / 100;
     this.unit = data.unit;
-    this.category_id = data.category_id;
-    this.category_name = data.category_name;
-    this.buy_price = data.buy_price / 100;
+    this.categoryId = data.categoryId;
+    this.categoryName = data.categoryName;
+    this.buyPrice = data.buyPrice / 100;
     this.stock = data.stock;
   }
 }
@@ -41,7 +47,7 @@ export default {
       request({
         url: '/mall/admin/goods/product/list',
         method: 'POST',
-        params: data,
+        data,
       }),
       (_) => new ColumnProduct(_),
     ),
@@ -50,11 +56,11 @@ export default {
     name: string;
     pic: string;
     online: boolean;
-    sell_price: number;
-    buy_price: number;
+    sellPrice: number;
+    buyPrice: number;
     unit: string;
     stock: number;
-    category_id: number;
+    categoryId: number;
   }) =>
     request.successRes(
       request({

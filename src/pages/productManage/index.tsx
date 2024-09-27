@@ -1,11 +1,11 @@
 import ProTable from '@/components/Table/ProTable';
 import { parseColumns } from '@/features/parseColumns';
+import productManage, { ColumnProduct } from '@/helper/services/productManage';
 import { PageContainer } from '@ant-design/pro-components';
 import type { ActionType } from '@ant-design/pro-table';
+import { Button, Popconfirm } from 'antd';
 import { memo, useCallback, useRef } from 'react';
 import Add from './Add';
-import productManage, { ColumnProduct } from '@/helper/services/productManage';
-
 
 //商品管理
 function ProductManage() {
@@ -19,16 +19,16 @@ function ProductManage() {
       },
       {
         title: '所属类别',
-        dataIndex: 'category_name',
+        dataIndex: 'categoryName',
         hideInSearch: false,
       },
       {
         title: '商品售价',
-        dataIndex: 'sell_price',
+        dataIndex: 'newSellPrice',
       },
       {
         title: '商品进价',
-        dataIndex: 'buyPrice',
+        dataIndex: 'newBuyPrice',
       },
       {
         title: '是否上架',
@@ -42,21 +42,46 @@ function ProductManage() {
         // width: 120,
         valueType: 'image',
       },
+      {
+        title: '创建时间',
+        dataIndex: 'createTime',
+      },
     ],
     operation: {
       render: (_, data) => (
         <>
           <Add raw={data} reload={reload} />
+          <Popconfirm
+            title={`确定要${data.online ? '下架' : '上架'}`}
+            onConfirm={() => {
+              const value = {
+                name: data.name,
+                pic: data.pic,
+                unit: data.unit,
+                stock: data.stock,
+                categoryId: data.categoryId,
+                sellPrice: data.sellPrice * 100,
+                buyPrice: data.buyPrice * 100,
+                online: !data.online,
+                id:data.id
+              };
+              productManage.updateProduct(value).then((res) => {
+                reload();
+              });
+            }}
+          >
+            <Button>{data.online ? '下架' : '上架'}</Button>
+          </Popconfirm>
         </>
       ),
     },
   });
   const request = useCallback(
     (params: PagingArgs<{ name?: string; online?: boolean }>) => {
-      const { pageSize: size = 20, current: page = 1, name,online } = params;
+      const { pageSize: size = 20, current: page = 1, name, online } = params;
       const data = {
         pageNumber: page - 1,
-        pageSize:size,
+        pageSize: size,
         name,
         online,
       };
@@ -75,9 +100,7 @@ function ProductManage() {
         actionRef={tableRef}
         columns={columns}
         request={request}
-        toolBarRender={() => [
-          <Add key="add" reload={reload} />,
-        ]}
+        toolBarRender={() => [<Add key="add" reload={reload} />]}
       />
     </PageContainer>
   );

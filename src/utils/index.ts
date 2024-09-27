@@ -22,10 +22,12 @@ const ErrorCodeMap = {
   // 开放平台
   11001: '请检查手机号是否正确',
   11002: '密码错误',
+  403: '登录失效请重新登录！',
+  500: '服务器错误',
 } as any;
 
 function delError(error: any) {
-  const code = error?.code;
+  const code = error?.response.status;
   let message = error?.debug || error?.msg || error?.mesg || error?.message;
   if (!message) {
     if (typeof error === 'string') {
@@ -38,7 +40,7 @@ function delError(error: any) {
     code,
     message,
   };
-  if (isNumber(code) && ErrorCodeMap[code]) {
+  if (ErrorCodeMap[code]) {
     data.message = ErrorCodeMap[code];
   }
   return data;
@@ -607,17 +609,13 @@ function validateContent(_: any, value: any) {
   return Promise.resolve();
 }
 export {
-  ErrorCodeMap,
-  InputNumberFormatter,
-  LowercaseLetters,
-  TimeProps,
-  UppercaseLetters,
   base642File,
   byte2string,
   createClipboard,
   delError,
   dowloadFile,
   entities2Utf16,
+  ErrorCodeMap,
   file2arrayBuffer,
   file2base64,
   filterObject,
@@ -630,6 +628,7 @@ export {
   getSourceNameByUrl,
   hasCaseInsensitiveProperty,
   index2XLSXIndex,
+  InputNumberFormatter,
   isAvailableNumber,
   isObjectStict,
   isPromise,
@@ -640,6 +639,7 @@ export {
   link2file,
   loadImage,
   loadVideo,
+  LowercaseLetters,
   map2options,
   omitFormValue,
   pamap,
@@ -652,8 +652,10 @@ export {
   redirect2login,
   session,
   svg2imgSrc,
+  TimeProps,
   toHourMinute,
   toMinute,
+  UppercaseLetters,
   url2Record,
   util_regexp,
   uuid,
