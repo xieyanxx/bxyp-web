@@ -43,10 +43,10 @@ function ReturnsManage() {
         hideInSearch: false,
       },
       {
-        title: '用户电话',
-        dataIndex: 'phone',
-        hideInSearch: false,
+        title: '退货时间',
+        dataIndex: 'createTime',
       },
+
     ],
     operation: false,
   });

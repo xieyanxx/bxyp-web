@@ -13,10 +13,10 @@ class ColumnReturn extends RecordItem {
   readonly orderNo: string;
   readonly refundAmount: number; //退款金额
   readonly refundNo: string; //退货订单号
-  readonly createTime: string;
   readonly username: string;
   readonly products: RefundItems; //退货商品
   readonly phone: string;
+  readonly createTime:string;
   constructor(data: any = {}) {
     super({
       name: data.operator,

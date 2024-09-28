@@ -13,6 +13,7 @@ class ColumnUser extends RecordItem {
   readonly createTime: string;
   readonly debtLimit: number; //欠款额度
   readonly debtBalance: number; //欠款余额
+  readonly debt: number; //欠款
   get isUse() {
     return this.enabled ? '是' : '否';
   }
@@ -32,6 +33,7 @@ class ColumnUser extends RecordItem {
     this.enabled = data.enabled;
     this.debtLimit = data.debtLimit / 100 || 0;
     this.debtBalance = data.debtBalance / 100 || 0;
+    this.debt = data.debt / 100 || 0;
   }
 }
 

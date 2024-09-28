@@ -28,12 +28,16 @@ function UserList() {
         dataIndex: 'balance',
       },
       {
-        title: '欠款额度',
+        title: '欠款额度(元)',
         dataIndex: 'debtLimit',
       },
       {
-        title: '欠款余额',
+        title: '欠款余额(元)',
         dataIndex: 'debtBalance',
+      },
+      {
+        title: '已欠款(元)',
+        dataIndex: 'debt',
       },
       {
         title: '是否可用',

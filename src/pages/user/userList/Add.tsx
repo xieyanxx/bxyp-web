@@ -1,5 +1,6 @@
 import { NestedFormRef, NestedModalForm } from '@/components/Form';
 import user, { ColumnUser } from '@/helper/services/user';
+import Token from '@/helper/store/token';
 import { adminPwd } from '@/utils/regexp';
 import { ProFormDigit, ProFormTextArea } from '@ant-design/pro-components';
 import { ProFormText } from '@ant-design/pro-form';
@@ -29,6 +30,8 @@ function Add({ raw, reload }: { raw?: ColumnUser; reload: () => void }) {
         debtLimit,
       };
       return data;
+    } else {
+      return { debtLimit: 100 };
     }
   }, [raw]);
   const submit = useCallback(
@@ -67,6 +70,7 @@ function Add({ raw, reload }: { raw?: ColumnUser; reload: () => void }) {
         disabled={raw ? true : false}
       />
       <ProFormDigit
+        disabled={Token.getUser().nickname === 'admin' && raw ? false : true}
         name="debtLimit"
         width={'lg'}
         label="欠款额度"

@@ -1,10 +1,13 @@
-import ConfirmButton from '@/components/ConfirmButton';
 import ProTable from '@/components/Table/ProTable';
 import { parseColumns } from '@/features/parseColumns';
-import orderManage, { ColumnOrder, OrderStatus } from '@/helper/services/orderManage';
+import orderManage, {
+  ColumnOrder,
+  OrderStatus,
+} from '@/helper/services/orderManage';
 import { handleAmount } from '@/helper/services/utils';
 import { PageContainer } from '@ant-design/pro-components';
 import type { ActionType } from '@ant-design/pro-table';
+import { Button, Popconfirm } from 'antd';
 import dayjs from 'dayjs';
 import { memo, useCallback, useRef } from 'react';
 import Refund from './Refund';
@@ -49,7 +52,7 @@ function OrderManage() {
       {
         title: '订单状态',
         dataIndex: 'orderState',
-        valueEnum:OrderStatus,
+        valueEnum: OrderStatus,
       },
       {
         title: '下单用户',
@@ -65,7 +68,6 @@ function OrderManage() {
         title: '下单时间',
         dataIndex: 'createTime',
         hideInSearch: false,
-        hideInTable: true,
         valueType: 'dateTimeRange',
         render: (_: any, data: ColumnOrder) => data.createTime,
         fieldProps: {
@@ -75,22 +77,24 @@ function OrderManage() {
     ],
     operation: {
       render: (_, data) => (
-        <>
+
+        <div style={{display:'flex',alignItems:'center',flexWrap:"wrap",gap:"8px"}}>
+           <Refund raw={data} reload={reload} />
           {data.orderState == 0 && (
-            <ConfirmButton
+            <Popconfirm
               title="确定要将该订单状态改为已完成吗？"
-              onConfirm={() =>
+              onConfirm={() => {
                 orderManage
                   .updateStatus({ orderNo: data.orderNo })
-                  .then((res) => (res && reload(), res))
-              }
+                  .then((res) => (res && reload(), res));
+              }}
             >
-              已完成
-            </ConfirmButton>
+              <Button>已完成</Button>
+            </Popconfirm>
           )}
 
-          <Refund raw={data} reload={reload} />
-        </>
+
+        </div>
       ),
     },
   });

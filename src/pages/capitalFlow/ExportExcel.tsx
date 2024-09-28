@@ -7,7 +7,6 @@ import capitalFlow, { CashoutType } from '@/helper/services/capitalFlow';
 function ExportExcel({ params }:any) {
     const getData = async () => {
         capitalFlow.cashoutList({ ...params, pageSize:1000 }).then((res) => {
-            console.log(res,'====>>>')
             const data = res.data.reduce(
                 (pre: any[], cur, index) => {
                     // excel序号从1开始， 表格第一行是标题
