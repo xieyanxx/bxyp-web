@@ -9,12 +9,14 @@ import { PageContainer } from '@ant-design/pro-components';
 import type { ActionType } from '@ant-design/pro-table';
 import { Button, Popconfirm } from 'antd';
 import dayjs from 'dayjs';
-import { memo, useCallback, useRef } from 'react';
+import { memo, useCallback, useRef, useState } from 'react';
+import ExportExcel from './ExportExcel';
 import Refund from './Refund';
 
 //商品管理
 function OrderManage() {
   const tableRef = useRef<ActionType>();
+  const [searchParams, setSearchParams] = useState<any>({});
   const columns = parseColumns<ColumnOrder>({
     columns: [
       {
@@ -77,9 +79,15 @@ function OrderManage() {
     ],
     operation: {
       render: (_, data) => (
-
-        <div style={{display:'flex',alignItems:'center',flexWrap:"wrap",gap:"8px"}}>
-           <Refund raw={data} reload={reload} />
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            flexWrap: 'wrap',
+            gap: '8px',
+          }}
+        >
+          <Refund raw={data} reload={reload} />
           {data.orderState == 0 && (
             <Popconfirm
               title="确定要将该订单状态改为已完成吗？"
@@ -92,8 +100,6 @@ function OrderManage() {
               <Button>已完成</Button>
             </Popconfirm>
           )}
-
-
         </div>
       ),
     },
@@ -124,6 +130,7 @@ function OrderManage() {
         username,
         phone,
       };
+      setSearchParams(data);
       return orderManage.orderList(data);
     },
     [],
@@ -139,7 +146,9 @@ function OrderManage() {
         actionRef={tableRef}
         columns={columns}
         request={request}
-        toolBarRender={() => []}
+        toolBarRender={() => [
+          <ExportExcel key={'exportExcel'} params={searchParams}></ExportExcel>,
+        ]}
       />
     </PageContainer>
   );

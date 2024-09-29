@@ -2,7 +2,7 @@ import { formatTime } from '@/utils';
 import { request } from './request';
 import { RecordItem } from './utils';
 
-const OrderStatus = {
+const OrderStatus:any = {
   0: '待出货',
   1: '已付款',
   2: '已完成',
