@@ -215,6 +215,9 @@ function createApiInstance() {
       if (response.status !== SuccessResCode) {
         return Promise.reject(delError(response.data));
       } else {
+        if(response.data.code==400){
+          return Promise.reject(delError(response.data));
+        }
         return Promise.resolve(response);
       }
     },

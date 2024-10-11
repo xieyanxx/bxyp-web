@@ -27,7 +27,8 @@ const ErrorCodeMap = {
 } as any;
 
 function delError(error: any) {
-  const code = error?.response.status;
+
+  const code = error?.code;
   let message = error?.debug || error?.msg || error?.mesg || error?.message;
   if (!message) {
     if (typeof error === 'string') {

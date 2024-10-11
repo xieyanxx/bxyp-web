@@ -105,6 +105,7 @@ function Add({ raw, reload }: { raw?: ColumnProduct; reload: () => void }) {
             name="unit"
             label=""
             noStyle
+            showSearch
             options={UnitOptions}
             placeholder="请选择"
             rules={[{ required: true }]}

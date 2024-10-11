@@ -52,12 +52,80 @@ export const UnitOptions = [
     label: '颗',
     value: '颗',
   },
+
+  {
+    label: '把',
+    value: '把',
+  },
+  {
+    label: '板',
+    value: '板',
+  },
+  {
+    label: '包',
+    value: '包',
+  },
+  {
+    label: '袋',
+    value: '袋',
+  },
+  {
+    label: '个',
+    value: '个',
+  },
   {
     label: '盒',
     value: '盒',
   },
+  {
+    label: '件',
+    value: '件',
+  },
+  {
+    label: '斤',
+    value: '斤',
+  },
+  {
+    label: '摞',
+    value: '摞',
+  },
+  {
+    label: '米',
+    value: '米',
+  },
+  {
+    label: '瓶',
+    value: '瓶',
+  },
+  {
+    label: '圈',
+    value: '圈',
+  },
+  {
+    label: '双',
+    value: '双',
+  },
+  {
+    label: '套',
+    value: '套',
+  },
+  {
+    label: '条',
+    value: '条',
+  },
+  {
+    label: '桶',
+    value: '桶',
+  },
+  {
+    label: '支',
+    value: '支',
+  },
+  {
+    label: '只',
+    value: '只',
+  },
 ];
-
 
 /**
  *
