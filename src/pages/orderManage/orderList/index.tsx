@@ -12,6 +12,7 @@ import dayjs from 'dayjs';
 import { memo, useCallback, useRef, useState } from 'react';
 import ExportExcel from './ExportExcel';
 import Refund from './Refund';
+import OrderExcel from './OrderExcel ';
 
 //商品管理
 function OrderManage() {
@@ -148,6 +149,7 @@ function OrderManage() {
         request={request}
         toolBarRender={() => [
           <ExportExcel key={'exportExcel'} params={searchParams}></ExportExcel>,
+          <OrderExcel  key={'OrderExcel '} params={searchParams}></OrderExcel>,
         ]}
       />
     </PageContainer>
