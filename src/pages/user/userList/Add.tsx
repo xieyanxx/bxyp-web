@@ -1,8 +1,12 @@
 import { NestedFormRef, NestedModalForm } from '@/components/Form';
-import user, { ColumnUser } from '@/helper/services/user';
+import user, { ColumnUser, isAdminOptions } from '@/helper/services/user';
 import Token from '@/helper/store/token';
 import { adminPwd } from '@/utils/regexp';
-import { ProFormDigit, ProFormTextArea } from '@ant-design/pro-components';
+import {
+  ProFormDigit,
+  ProFormRadio,
+  ProFormTextArea,
+} from '@ant-design/pro-components';
 import { ProFormText } from '@ant-design/pro-form';
 import { memo, useCallback, useRef } from 'react';
 
@@ -14,13 +18,14 @@ type Values = {
     shopName: string;
     shopAddr: string;
     debtLimit: number;
+    admin: boolean;
   };
 };
 function Add({ raw, reload }: { raw?: ColumnUser; reload: () => void }) {
   const modal = useRef<NestedFormRef>(null);
   const getValues = useCallback(() => {
     if (raw) {
-      const { id, phone, username, shopName, shopAddr, debtLimit } = raw;
+      const { id, phone, username, shopName, shopAddr, debtLimit, admin } = raw;
       const data: any = {
         phone,
         id,
@@ -28,16 +33,24 @@ function Add({ raw, reload }: { raw?: ColumnUser; reload: () => void }) {
         shopName,
         shopAddr,
         debtLimit,
+        admin,
       };
       return data;
     } else {
-      return { debtLimit: 100 };
+      return { debtLimit: 100, admin: 0 };
     }
   }, [raw]);
   const submit = useCallback(
     async (values: Values) => {
-      const { phone, username, shopName, shopAddr, password, debtLimit } =
-        values.basic;
+      const {
+        phone,
+        username,
+        shopName,
+        shopAddr,
+        password,
+        debtLimit,
+        admin,
+      } = values.basic;
       const data: any = {
         phone,
         username,
@@ -46,6 +59,7 @@ function Add({ raw, reload }: { raw?: ColumnUser; reload: () => void }) {
         shopAddr,
         id: raw?.id,
         debtLimit: debtLimit * 100,
+        admin: admin ? true : false,
       };
       return user.updateUser(data).then((res) => {
         reload();
@@ -63,6 +77,14 @@ function Add({ raw, reload }: { raw?: ColumnUser; reload: () => void }) {
       onFinish={submit}
       isEdit={!!raw}
     >
+      <ProFormRadio.Group
+        name="admin"
+        label="是否为管理人员"
+        disabled={Token.getUser().nickname === 'admin' ? false : true}
+        options={isAdminOptions}
+        rules={[{ required: true }]}
+      />
+
       <ProFormText
         name="username"
         label="用戶名"
@@ -70,7 +92,7 @@ function Add({ raw, reload }: { raw?: ColumnUser; reload: () => void }) {
         disabled={raw ? true : false}
       />
       <ProFormDigit
-        disabled={Token.getUser().nickname === 'admin' && raw ? false : true}
+        disabled={Token.getUser().nickname === 'admin' ? false : true}
         name="debtLimit"
         width={'lg'}
         label="欠款额度"

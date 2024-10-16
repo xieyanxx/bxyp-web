@@ -18,7 +18,7 @@ export const API_HOST: string = API_URL_MAP[ENV] || API_URL_MAP.DEV;
 const BUILD_TARGET = process.argv[3]?.toUpperCase() || 'DEV';
 
 export default defineConfig({
-  title: '百鲜优品',
+  title: '百品优鲜',
   antd: {},
   access: {},
   model: {},
@@ -26,7 +26,7 @@ export default defineConfig({
   hash: true,
   request: {},
   layout: {
-    title: '百鲜优品',
+    title: '百品优鲜',
   },
 
   define: {

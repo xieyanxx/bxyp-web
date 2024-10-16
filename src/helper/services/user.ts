@@ -1,7 +1,12 @@
-import { formatTime } from '@/utils';
+import { formatTime, map2options } from '@/utils';
 import { request } from './request';
 import { RecordItem } from './utils';
 
+const isAdmin: any = {
+  0: '否',
+  1: '是',
+};
+const isAdminOptions = map2options(isAdmin, true);
 class ColumnUser extends RecordItem {
   readonly id: number;
   readonly username: string;
@@ -14,8 +19,12 @@ class ColumnUser extends RecordItem {
   readonly debtLimit: number; //欠款额度
   readonly debtBalance: number; //欠款余额
   readonly debt: number; //欠款
+  readonly roles: string[];
   get isUse() {
     return this.enabled ? '是' : '否';
+  }
+  get admin() {
+    return this.roles[0] == 'ADMIN' ? 1 : 0;
   }
   constructor(data: any = {}) {
     super({
@@ -34,6 +43,7 @@ class ColumnUser extends RecordItem {
     this.debtLimit = data.debtLimit / 100 || 0;
     this.debtBalance = data.debtBalance / 100 || 0;
     this.debt = data.debt / 100 || 0;
+    this.roles = data.roles;
   }
 }
 
@@ -77,4 +87,4 @@ export default {
     ),
 };
 
-export { ColumnUser };
+export { ColumnUser, isAdminOptions };

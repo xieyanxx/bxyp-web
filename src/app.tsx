@@ -17,7 +17,7 @@ export async function getInitialState(): Promise<{ name: string }> {
   return { name: '@umijs/max' };
 }
 const defaultSettings = {
-  title: '百优优选',
+  title: '百品优鲜',
   navTheme: 'light',
   layout: 'mix',
   contentWidth: 'Fluid',
@@ -54,11 +54,11 @@ export const layout = ({ initialState }: any) => {
         <p
           style={{
             textAlign: 'center',
-            color: 'rgba(0,0,0,0.6)',
+            color: '#ffffff',
             paddingBlockStart: 12,
           }}
         >
-          百优优选出版
+          百品优鲜出版
         </p>
       );
     },
