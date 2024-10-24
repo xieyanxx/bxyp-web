@@ -1,12 +1,13 @@
 import { SuccessResCode } from '@/constants';
+import Token from '@/helper/store/token';
 import {
   delError,
   filterObject,
   hasCaseInsensitiveProperty,
   isStrictObject,
 } from '@/utils';
-import { message } from 'antd';
 import { history } from '@umijs/max';
+import { message } from 'antd';
 import type {
   AxiosRequestConfig,
   AxiosRequestHeaders,
@@ -15,9 +16,9 @@ import type {
 } from 'axios';
 import axios from 'axios';
 import { cloneDeep, isFunction } from 'lodash';
-import Token from '../store/token';
 const RequestTimeout = 20000;
 const TimeoutErrorMessage = '请求响应超时';
+let pendingList: any[] = [];
 
 /**
  * @description: 从AxiosRequestHeaders中取值，key可能是大写或小写
@@ -211,26 +212,46 @@ function createApiInstance() {
         let token = response.headers['Set-Token'.toLocaleLowerCase()];
         localStorage.setItem('token', `Bearer ${token}`);
       }
-      console.log(response)
       if (response.status !== SuccessResCode) {
         return Promise.reject(delError(response.data));
       } else {
-        if(response.data.code==400){
+        if (response.data.code == 400) {
           return Promise.reject(delError(response.data));
         }
         return Promise.resolve(response);
       }
     },
-    (error: any) => {
-      if (error?.response?.status === 403 || error?.response?.status === 0) {
-        history.replace('/login');
+    async (error: any) => {
 
+      if (error?.response?.status === 403 || error?.response?.status === 0) {
+        // const refreshToken = Token.getRefreshToken();
+        // const newToken = await network({
+        //   url: '/mall/public/token/refresh',
+        //   method: 'POST',
+        //   data: { refreshToken },
+        // }).then(({ data }) => {
+        //   const { accessToken, refreshToken } = data;
+        //   accessToken && Token.setAccessToken(accessToken);
+        //   Token.setRefreshToken(refreshToken);
+        //   console.log(data,'======>>>>')
+        //   return accessToken;
+        // });
+        // if (!newToken) {
+        //   pendingList = [];
+        //   history.replace('/login');
+        // } else {
+        //   pendingList.forEach((item) => item());
+        //    await createApiInstance();
+        // }
+        // return Promise.reject(delError(error?.response));
+        history.replace('/login');
       }
       // 大部分接口报错是这样的
+      console.log(error?.response?.status,'===>>>>')
       if (typeof error?.response?.data?.code === 'number') {
         return Promise.reject(delError(error.response.data));
       }
-      return Promise.reject(error);
+      return Promise.reject(delError(error.response.data));
     },
   );
   return $http;
@@ -299,7 +320,8 @@ async function upload(config: any) {
       success: false;
       data: ReturnType<typeof delError>;
     };
-  const url: string = API_URL + 'mall/public/common/files/images' + uploadRes.data;
+  const url: string =
+    API_URL + 'mall/public/common/files/images' + uploadRes.data;
   const uploadData = {
     success: true,
     data: { url, id: url },

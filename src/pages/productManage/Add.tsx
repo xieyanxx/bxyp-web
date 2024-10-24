@@ -25,7 +25,7 @@ type Values = {
     categoryId: number;
   };
 };
-function Add({ raw, reload }: { raw?: ColumnProduct; reload: () => void }) {
+function Add({ raw, reload }: { raw?: ColumnProduct; reload: (reloadAndRest:boolean) => void }) {
   const modal = useRef<NestedFormRef>(null);
   const getValues = useCallback(() => {
     if (raw) {
@@ -49,7 +49,7 @@ function Add({ raw, reload }: { raw?: ColumnProduct; reload: () => void }) {
         id: raw?.id,
       };
       return productManage.updateProduct(data).then((res) => {
-        reload();
+        reload(false);
         return res;
       });
     },

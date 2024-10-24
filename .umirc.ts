@@ -5,8 +5,8 @@ const ENV = process.env.ENV || 'DEV';
 const API_URL_MAP = {
   PROD: 'https://mall.baixianyoupin.cn/',
   TEST: 'https://mall.baixianyoupin.cn/',
-  // DEV: 'http://8.137.49.13:9090/',
-  DEV: 'https://mall.baixianyoupin.cn/',
+  DEV: 'http://172.16.2.66:9091/',
+  // DEV: 'https://mall.baixianyoupin.cn/',
 } as any;
 
 const ADMIN_URL_MAP = {

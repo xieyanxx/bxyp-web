@@ -10,11 +10,12 @@ import Token from '@/helper/store/token';
 type Values = { username: string; password: string };
 
 const LoginCallback = (res: any, redirectUrl?: string) => {
-  const { message: msg, accessToken } = res.data;
+  const { message: msg, accessToken,refreshToken } = res.data;
   if (res.status === 200) {
     const decoded = jwt.decode(accessToken);
     const {sub,phone}=decoded
     accessToken && Token.setAccessToken(accessToken);
+    Token.setRefreshToken(refreshToken)
     sub && Token.setUser({ nickname:sub,  phone });
     message.success('登录成功');
     // 重定向到url
